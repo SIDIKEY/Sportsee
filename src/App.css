@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.dashboard {
+  position: fixed;
+  left: 10vw;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-inline: 100px;
+}
+
+.title {
+  display: flex;
+  height: 110px;
+}
+
+.username {
+  color: red;
+}
+
+h1 {
+  display: flex;
+  gap: 20px;
+}
