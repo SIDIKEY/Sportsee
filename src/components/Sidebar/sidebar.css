@@ -1,0 +1,45 @@
+.side_nav_bar {
+    position: fixed;
+    left: 0;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 8%;
+    background-color: rgb(0, 0, 0);
+    height: 90vh;
+    margin: 0;
+    
+    
+}
+
+.side_nav_links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 25vh;
+    margin: 0;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin-top: 96px;
+    
+}
+
+.side_link {
+    height: 64px;
+    width: 64px;
+    list-style: none;
+}
+
+.copyrights {
+    writing-mode: vertical-rl;
+    transform: scale(-1);
+    margin-bottom: 54px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+  
