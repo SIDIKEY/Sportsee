@@ -1,8 +1,7 @@
 .titleWrapper {
-    display:flex;
-	flex-direction: column;
+
 	gap: 20px;
-	margin-bottom: 70px;
+	margin-bottom: 30px;
 }
 
 .color {

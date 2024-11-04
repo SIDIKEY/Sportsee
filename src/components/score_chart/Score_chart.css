@@ -1,0 +1,52 @@
+.CustomScore{
+    position: relative;	
+	border-radius: 5px;
+	height: 100%;
+	width: 33%;
+    background-color: #FBFBFB;
+    z-index: -1;
+
+}
+
+.titleScore {
+    position: absolute;
+    margin-top: 24px;
+    margin-left: 24px;   
+    font-size: 15px; 
+    
+}
+
+.Score {
+    display: flex;
+	flex-direction: column;
+   	align-items: center;
+   	justify-content: center;
+	gap: 5px;
+	position: absolute;
+	content: "";
+	width: 60%;
+	height: 60%;
+	top: 50%;
+  	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	z-index: -1;
+}
+
+.percentage { 				
+    font-size: 26px; 
+    
+}
+
+
+.message {  
+    font-size: 16px;    
+    opacity: 0.6;
+    
+
+}
+
+#Responsive {
+    position: absolute;
+    top: 0;
+}

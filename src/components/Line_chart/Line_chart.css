@@ -1,0 +1,36 @@
+.WrapperLine {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 5px;
+  width: 33%;
+  
+  opacity: 0.9;
+  background-color: red;
+  font-size: 12px;
+}
+
+.title {
+    padding-top: 30px;
+    padding-left: 30px;
+    font-size: 15px;
+    max-width: 70%;
+    opacity: 0.5;
+    line-height: 24px;
+}
+
+.legend {
+    display: flex;
+    padding-bottom: 25px;
+    justify-content: space-around;
+    
+}
+
+.recharts-tooltip-item-list,
+.xAxis {
+  display: none;
+}
+.block {
+   
+
+}

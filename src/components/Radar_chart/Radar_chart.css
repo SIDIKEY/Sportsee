@@ -1,0 +1,19 @@
+.CustomRadar {
+    display:flex;
+	background-color: black;
+	border-radius: 5px;
+	width: 33%;
+    height: 263px;
+	opacity: 0.9;
+    
+}
+
+tspan,.tspan {
+    text-align: left;
+    position:absolute;
+    margin-top: 10%;
+    
+    font-size: 12px; 
+    
+   
+}
