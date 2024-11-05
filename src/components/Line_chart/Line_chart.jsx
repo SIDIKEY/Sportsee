@@ -1,16 +1,13 @@
 import React from "react";
-import "./Line_chart.css"
-
+import "./Line_chart.css";
 
 import { LineChart, Line, Tooltip, XAxis, ResponsiveContainer } from "recharts";
 
 export default function ChartLine({ data }) {
-
-  console.log(data)
+  console.log(data);
   return (
-    <div className="WrapperLine" >
+    <div className="WrapperLine">
       <div className="title">Durée moyenne des sessions</div>
-      <div className="block"></div>
 
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ bottom: 10 }}>
@@ -22,7 +19,7 @@ export default function ChartLine({ data }) {
             strokeWidth={1}
             dot={false}
           />
-         
+
           <XAxis dataKey="sessionLength" />
 
           <Tooltip
@@ -45,4 +42,3 @@ export default function ChartLine({ data }) {
     </div>
   );
 }
-

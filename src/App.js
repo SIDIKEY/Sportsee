@@ -17,9 +17,9 @@ import './App.css';
 function App() {
 
   const url = getCurrentURL();
-  let id = url.split(`3002/`).pop();
+  let id = url.split(`3001/`).pop();
 
-  const [data, loading, error] = useData(id);
+  const [data, loading] = useData(id);
 
   function getCurrentURL() {
     return window.location.href;
@@ -37,7 +37,7 @@ function App() {
         <div className="Title">
           <Title
             title="Bonjour"
-            username={loading ? "loading" : data ?.user.userInfos.firstName || "" }
+            username={loading ? "loading" : data ?.user?.userInfos.firstName || "" }
           />
             <h2>Félicitations vous avez explosé vos objectifs hier 👏</h2>
         </div>
@@ -49,11 +49,11 @@ function App() {
 
         <div className="main">
             <div>
-              <Simplebarchart data={data ? data.activity.sessions : ""} />
+              <Simplebarchart data={data?.activity?.sessions || ""} />
             </div>
 
             <div className="charts_wrapper">
-              <ChartLine data={data ? data.averageSessions.sessions : ""} />
+              <ChartLine data={data?.averageSessions?.sessions || ""} />
               
               <RadChart dataPerf={data? data.performance : ""}/>
 
@@ -76,7 +76,7 @@ function App() {
                 />
               </div>
               <div>
-                <p className="widget_value">{data ? data.user.keyData.calorieCount + "kcal" : "no"}</p>
+                <p className="widget_value">{data?.user?.keyData?.calorieCount + "kcal" || ""}</p>
                 <p className="widget_unit">Calories</p>
               </div>
             </div>
@@ -89,7 +89,7 @@ function App() {
                 />
               </div>
               <div>
-                <p className="widget_value">{data ? data.user.keyData.proteinCount + "g" : "no"}</p>
+                <p className="widget_value">{data?.user?.keyData?.proteinCount + "g" || ""}</p>
                 <p className="widget_unit">Protéines</p>
               </div>
             </div>
@@ -102,7 +102,7 @@ function App() {
                 />
               </div>
               <div>
-                <p className="widget_value">{data ? data.user.keyData.carbohydrateCount + "g" : "no"}</p>
+                <p className="widget_value">{data?.user?.keyData?.carbohydrateCount + "g" || ""}</p>
                 <p className="widget_unit">Glucides</p>
               </div>
             </div>
@@ -115,7 +115,7 @@ function App() {
                 />
               </div>
               <div>
-                <p className="widget_value">{data ? data.user.keyData.lipidCount + "g" : "no"}</p>
+                <p className="widget_value">{data?.user?.keyData?.lipidCount + "g" || ""}</p>
                 <p className="widget_unit">lipides</p>
               </div>
             </div>

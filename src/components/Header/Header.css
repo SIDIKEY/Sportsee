@@ -21,7 +21,7 @@ img {
 }
 
 .nav_links {
-    width: 50%;
+    width: 75%;
     display: flex;
     justify-content: space-evenly;
     color: white;
