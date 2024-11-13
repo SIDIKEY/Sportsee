@@ -20,17 +20,19 @@ export default function useData(userID) {
       const promises = [user, activity, averageSession, performance];
 
       const responses = await Promise.all(promises);
-      let tmpData = [];
+      let tmpData = {
+
+      };
 
       for await (let response of responses) {
-        console.log("response");
         if (!response.ok) {
-          setError(true);
-          console.log(error);
+          throw new Error(response.statusText);
         } else if (response.ok) {
           const json = await response.json();
-
+          const {userId, ...rest} = json.data;
           let key = response.url.split(`${userID}/`).pop();
+
+
 
           let keyName = "user";
           let userPath = `http://localhost:3000/user/` + userID;
@@ -44,10 +46,10 @@ export default function useData(userID) {
           }
 
           tmpData[key] = json.data;
-          tmpData.push(json.data);
+          // tmpData.push(json.data);
         }
       }
-
+      console.log("tmpData", tmpData);  
       setData(tmpData);
       setLoading(false);
     })();
@@ -55,3 +57,4 @@ export default function useData(userID) {
 
   return [data, loading, error];
 }
+
