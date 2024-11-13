@@ -1,4 +1,5 @@
 import Header from "./components/Header/Header";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import Title from "./components/Title/Title";
 import useData from "./Hook/UseData";
@@ -10,66 +11,71 @@ import caloriesWidget from "./Assets/calories-icon.svg";
 import proteinWidget from "./Assets/protein-icon.svg";
 import carbsWidget from "./Assets/carbs-icon.svg";
 import fatWidget from "./Assets/fat-icon.svg";
+import { useFetch } from "./Hook/useFetch.js";
 
 import "./App.css";
 
 function App() {
+
+  const [state, setState] = useState("api");
+
+  const onToggleResource = () => {
+    setState(state === "mock" ? "api" : "mock");
+  };
+
   function getCurrentURL() {
     return window.location.href;
   }
 
   let url = getCurrentURL();
-  
-  
   let id = url.split(`3001/`).pop();
-    
-  
-  
 
-  function findID(id) {
-    if(!id || id=="") {
-      
-      let alerted = localStorage.getItem('alerted') || '';
-      if (alerted != 'yes') {
-        window.alert("please put your user id in the url like this: `http://localhost:3001/12`")
-        console.log("no user id");
-      localStorage.setItem('alerted','yes');
-    }
-      
-      
-      
-     //. window.location.href += "12"
-    }
-
-    
+  function getId() {
+    return id;
   }
 
-  findID()
 
   
 
-
-  
-
-  
+  const [urlMock, setUrl] = useState("http://localhost:3001");
+  const { tData, error } = useFetch(urlMock);
 
   const [data, loading] = useData(id);
 
- 
-  console.log(data);
+  const format = data?.performance?.data.map((data) => {
+    switch (data.kind) {
+      case 1:
+        return { ...data, kind: "Intensité" };
+      case 2:
+        return { ...data, kind: "vitesse" };
+      case 3:
+        return { ...data, kind: "Force" };
+      case 4:
+        return { ...data, kind: "Endurance" };
+      case 5:
+        return { ...data, kind: "Energie" };
+      case 6:
+        return { ...data, kind: "Cardio" };
+      default:
+        return { ...data };
+    }
+  });
+
+  // console.log(tData)
+  const dataToUse = state === "api" ? data : tData;
+
+  console.log(dataToUse, data);
 
   return (
     <div>
-      <Header />
+      <Header onToggleResource={onToggleResource} resource={state}/>
       <Sidebar />
 
       <div className="dashboard">
         <div className="Title">
           <Title
             title="Bonjour"
-            username={
-              loading ? "loading" : data?.user?.userInfos.firstName || ""
-            }
+            username={dataToUse?.user?.userInfos?.firstName || "John Doe"}
           />
           <h2>Félicitations vous avez explosé vos objectifs hier 👏</h2>
         </div>
@@ -77,17 +83,17 @@ function App() {
         <div className="mainWrapper">
           <div className="main">
             <div>
-              <Simplebarchart data={data?.activity?.sessions || ""} />
+              <Simplebarchart data={dataToUse?.activity?.sessions || ""} />
             </div>
 
             <div className="charts_wrapper">
-              <ChartLine data={data?.averageSessions?.sessions || ""} />
+              <ChartLine data={dataToUse?.averageSessions?.sessions || ""} />
 
-              <RadChart dataPerf={data ? data.performance : ""} />
+              <RadChart dataPerf={format ? format : dataToUse?.performance?.data} />
 
               <ChartScore
                 dataScore={
-                  Number(data?.user?.todayScore) || data?.user?.score || 0
+                  Number(dataToUse?.user?.todayScore) || dataToUse?.user?.score
                 }
               />
             </div>
@@ -105,7 +111,7 @@ function App() {
                 </div>
                 <div>
                   <p className="widget_value">
-                    {data?.user?.keyData?.calorieCount + "kcal" || ""}
+                    {dataToUse?.user?.keyData?.calorieCount + "kcal" || ""}
                   </p>
                   <p className="widget_unit">Calories</p>
                 </div>
@@ -120,7 +126,7 @@ function App() {
                 </div>
                 <div>
                   <p className="widget_value">
-                    {data?.user?.keyData?.proteinCount + "g" || ""}
+                    {dataToUse?.user?.keyData?.proteinCount + "g" || ""}
                   </p>
                   <p className="widget_unit">Protéines</p>
                 </div>
@@ -135,7 +141,7 @@ function App() {
                 </div>
                 <div>
                   <p className="widget_value">
-                    {data?.user?.keyData?.carbohydrateCount + "g" || ""}
+                    {dataToUse?.user?.keyData?.carbohydrateCount + "g" || ""}
                   </p>
                   <p className="widget_unit">Glucides</p>
                 </div>
@@ -150,7 +156,7 @@ function App() {
                 </div>
                 <div>
                   <p className="widget_value">
-                    {data?.user?.keyData?.lipidCount + "g" || ""}
+                    {dataToUse?.user?.keyData?.lipidCount + "g" || ""}
                   </p>
                   <p className="widget_unit">lipides</p>
                 </div>
@@ -162,6 +168,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
