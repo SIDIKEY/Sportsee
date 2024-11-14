@@ -11,32 +11,10 @@ import {
 } from "recharts";
 
 export default function RadChart({ dataPerf }) {
-  const formatData = dataPerf?.data?.map((data) => {
-    switch (data.kind) {
-      case 1:
-        return { ...data, kind: "Intensité" };
-      case 2:
-        return { ...data, kind: "vitesse" };
-      case 3:
-        return { ...data, kind: "Force" };
-      case 4:
-        return { ...data, kind: "Endurance" };
-      case 5:
-        return { ...data, kind: "Energie" };
-      case 6:
-        return { ...data, kind: "Cardio" };
-      default:
-        return { ...data };
-    }
-  });
+  
 
   function renderPolarAngleAxis({ payload, x, y, cx, cy, ...rest }) {
-    const newData = formatData;
-
-    console.log(newData);
-    newData.map((data) => {
-      console.log(data, payload.value);
-    });
+   
 
     return (
       <Text
@@ -55,7 +33,7 @@ export default function RadChart({ dataPerf }) {
   return (
     <div className="CustomRadar">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart outerRadius="50%" data={formatData}>
+        <RadarChart outerRadius="50%" data={dataPerf}>
           <PolarAngleAxis
             dataKey="kind"
             stroke="white"
