@@ -13,48 +13,86 @@ export default function useData(userID) {
       setLoading(true);
       setError(false);
 
-      const user = fetch(`${api}/${userID}`);
-      const activity = fetch(`${api}/${userID}/activity`);
-      const averageSession = fetch(`${api}/${userID}/average-sessions`);
-      const performance = fetch(`${api}/${userID}/performance`);
-      const promises = [user, activity, averageSession, performance];
+      try {
+        const user = fetch(`${api}/${userID}`);
+        const activity = fetch(`${api}/${userID}/activity`);
+        const averageSession = fetch(`${api}/${userID}/average-sessions`);
+        const performance = fetch(`${api}/${userID}/performance`);
+        const promises = [user, activity, averageSession, performance];
 
-      const responses = await Promise.all(promises);
-      let tmpData = {
+        const responses = await Promise.all(promises);
+        let tmpData = {};
 
-      };
+        for await (let response of responses) {
+          if (!response.ok) {
+            setError(true);
+            console.log(`HTTP Response Code: ${response?.status}`);
+          } else if (response.ok) {
+            setError(null);
+            const json = await response.json();
+            const { userId, ...rest } = json.data;
+            let key = response.url.split(`${userID}/`).pop();
 
-      for await (let response of responses) {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        } else if (response.ok) {
-          const json = await response.json();
-          const {userId, ...rest} = json.data;
-          let key = response.url.split(`${userID}/`).pop();
+            let keyName = "user";
+            let userPath = `http://localhost:3000/user/` + userID;
+
+            if (key == "average-sessions") {
+              key = "averageSessions";
+            }
+
+            let id = userID
+              ? Number(userID)
+              : ">>>>>>>>>>>>>>>>>NO ID<<<<<<<<<<<<<<<<<<<<";
+
+            if (id && json.data.userId) {
+              console.log(json.data.userId, id);
+              if (id == json.data.userId) {
+                console.log(">>>>>>>>>>>>Matching IDS<<<<<<<<<<<<<<");
+              } else {
+                await json.data.userId;
+                if (json.data.userId !== id) {
+                  console.log(">>>>>>>>>>>>AUTH FAILED<<<<<<<<<<<<");
+                }
+              }
+            }
 
 
+            
+            
 
-          let keyName = "user";
-          let userPath = `http://localhost:3000/user/` + userID;
+            if (key == userPath) {
+              key = keyName;
+            }
 
-          if (key == "average-sessions") {
-            key = "averageSessions";
+            tmpData[key] = json.data;
+
+            console.log(json); 
+            console.log(tmpData);
+
+            if(tmpData){
+              console.log(">>>>>>>>>>>><<TMP<<<<<<<<<<<<<<<", tmpData.length);
+              
+
+
+              
+              
+              
+              
+            }
+            
           }
-
-          if (key == userPath) {
-            key = keyName;
-          }
-
-          tmpData[key] = json.data;
-          // tmpData.push(json.data);
         }
+        console.log("tmpData", tmpData);
+        setLoading(false);
+        setData(tmpData);
+      } catch (error) {
+        console.log(`${error} >>>>>>>>>>>>>>>>>Could not Fetch Data `);
+        setError(`${error} >>>>>>>>>>>>>>>>>Could not Fetch Data `);
+
+        setLoading(false);
       }
-      console.log("tmpData", tmpData);  
-      setData(tmpData);
-      setLoading(false);
     })();
   }, [userID]);
 
   return [data, loading, error];
 }
-
