@@ -1,5 +1,5 @@
 import Header from "./components/Header/Header";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import Title from "./components/Title/Title";
 import useData from "./Hook/UseData";
@@ -12,10 +12,23 @@ import proteinWidget from "./Assets/protein-icon.svg";
 import carbsWidget from "./Assets/carbs-icon.svg";
 import fatWidget from "./Assets/fat-icon.svg";
 import { useFetch } from "./Hook/useFetch.js";
-
 import "./App.css";
+import useFormat from "./components/UseFormat/UseFormat.js";
 
 function App() {
+
+  
+  
+  function getCurrentURL() {
+    return window.location.href;
+  }
+
+  let url = getCurrentURL();
+  let id = url.split(`3001/`).pop();
+  let format = useFormat(id);
+  
+  console.log(format);
+
 
   const [state, setState] = useState("api");
 
@@ -23,52 +36,29 @@ function App() {
     setState(state === "mock" ? "api" : "mock");
   };
 
-  function getCurrentURL() {
-    return window.location.href;
-  }
-
-  let url = getCurrentURL();
-  let id = url.split(`3001/`).pop();
-
-  function getId() {
-    return id;
-  }
-
-
-  
-
   const [urlMock, setUrl] = useState("http://localhost:3001");
   const { tData, error } = useFetch(urlMock);
 
   const [data, loading] = useData(id);
 
-  const format = data?.performance?.data.map((data) => {
-    switch (data.kind) {
-      case 1:
-        return { ...data, kind: "Intensité" };
-      case 2:
-        return { ...data, kind: "vitesse" };
-      case 3:
-        return { ...data, kind: "Force" };
-      case 4:
-        return { ...data, kind: "Endurance" };
-      case 5:
-        return { ...data, kind: "Energie" };
-      case 6:
-        return { ...data, kind: "Cardio" };
-      default:
-        return { ...data };
-    }
-  });
+  
 
-  // console.log(tData)
+  console.log(data);
   const dataToUse = state === "api" ? data : tData;
 
-  console.log(dataToUse, data);
+  console.log({dataToUse});
+  if (!dataToUse?.user) {
+    return (
+      <div className="Error">
+        
+        <h1>ERROR 404</h1>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <Header onToggleResource={onToggleResource} resource={state}/>
+      <Header onToggleResource={onToggleResource} resource={state} />
       <Sidebar />
 
       <div className="dashboard">
@@ -89,7 +79,9 @@ function App() {
             <div className="charts_wrapper">
               <ChartLine data={dataToUse?.averageSessions?.sessions || ""} />
 
-              <RadChart dataPerf={format ? format : dataToUse?.performance?.data} />
+              <RadChart
+                dataPerf={format ? format : dataToUse?.performance?.data}
+              />
 
               <ChartScore
                 dataScore={
