@@ -8,7 +8,6 @@ body {
   overflow: auto;
 }
 
-
 .App {
   text-align: center;
 }
@@ -39,30 +38,25 @@ body {
   color: #61dafb;
 }
 
-
-
 .dashboard {
-  position: fixed;
-  left: 2vw;
   display: flex;
-  width: 100%;
-  padding-inline: 100px;
+  width: 88vw;
   flex-direction: column;
+  margin-left: 12%;
 }
 
 .Title {
-  margin-bottom: 60px;
-  
+  margin-left: 60px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
-h2{
+h2 {
   font-family: Roboto;
-font-size: 18px;
-font-weight: 400;
-line-height: 24px;
-text-align: left;
-
-
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
 }
 
 .username {
@@ -77,8 +71,8 @@ h1 {
 }
 
 .charts_wrapper {
-  width: 90%;
-  height: 200px;
+  width: 95%;
+  height: 190px;
   display: flex;
   gap: 15px;
 }
@@ -90,51 +84,52 @@ h1 {
 .widgets_wrapper {
   width: 100%;
   width: 100%;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-
 }
 
-aside{
+aside {
   display: flex;
-
 }
 .calories_widget {
   display: flex;
   width: 162px;
   align-items: center;
   justify-content: center;
-  background-color:#FBFBFB;
-  ;
+  background-color: #fbfbfb;
 }
 .c_widget {
   height: 60px;
   width: 60px;
 }
 
-.mainWrapper{
+.mainWrapper {
   display: flex;
-  
-
+  justify-content: space-around;
 }
 
-.widget_value{
+.widget_value {
   font-family: Roboto;
   font-size: 20px;
   font-weight: 700;
   line-height: 10px;
   text-align: left;
-
 }
 
-.widget_unit{
+.widget_unit {
   font-family: Roboto;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
   text-align: left;
+}
+
+.Error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 
 }
