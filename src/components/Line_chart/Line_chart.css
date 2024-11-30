@@ -4,33 +4,65 @@
   position: relative;
   border-radius: 5px;
   width: 33%;
-  
-  opacity: 0.9;
-  background-color: red;
+  opacity: 1;
+  background-color: #FF0000;
   font-size: 12px;
 }
 
-.title {
-    padding-top: 30px;
-    padding-left: 30px;
-    font-size: 15px;
-    max-width: 70%;
-    opacity: 0.5;
-    line-height: 24px;
+.titleLine {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+  font-size: 15px;
+  max-width: 59%;
+  color: white;
+  opacity: 0.6;
+  line-height: 24px;
+}
+
+.recharts-line-curve {
+  height: 100px;
+
 }
 
 .legend {
-    display: flex;
-    padding-bottom: 25px;
-    justify-content: space-around;
-    
+  display: flex;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  justify-content: space-around;
+  z-index: 1;
+  color: white;
+  opacity: 0.6;
 }
 
-.recharts-tooltip-item-list,
-.xAxis {
+.recharts-tooltip-item-list {
   display: none;
 }
-.block {
-   
+.tooltip {
+  width: 60px;
+  height: 25px;
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.redBoxChart {
+  width: 23%;
+  height: 100%;
+  background-color: rgb(207, 2, 2);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 0;
 
+}
+
+.cursorLine {
+  width: 60px;
+  height: 100%;
+  background-color: #b30101;
+  fill: #b30101;
+  z-index: 0;
 }
