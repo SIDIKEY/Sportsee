@@ -12,7 +12,7 @@ import proteinWidget from "./Assets/protein-icon.svg";
 import carbsWidget from "./Assets/carbs-icon.svg";
 import fatWidget from "./Assets/fat-icon.svg";
 import "./App.css";
-import useFormat from "./components/UseFormat/UseFormat.js";
+import useFormat from "./Hook/UseFormat.js";
 
 function App() {
   function getCurrentURL() {
