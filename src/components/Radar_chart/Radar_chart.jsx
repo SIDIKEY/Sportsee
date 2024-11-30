@@ -8,6 +8,7 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
   Text,
+  
 } from "recharts";
 
 export default function RadChart({ dataPerf }) {
@@ -33,19 +34,19 @@ export default function RadChart({ dataPerf }) {
   return (
     <div className="CustomRadar">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart outerRadius="50%" data={dataPerf}>
+        <RadarChart outerRadius="55%" data={dataPerf}>
           <PolarAngleAxis
             dataKey="kind"
             stroke="white"
             strokeWidth={1}
-            dy={2}
-            tickSize={15}
+            
+            tickSize={0.1}
             tick={(props) => renderPolarAngleAxis(props)}
           />
           <PolarGrid
             gridType="polygon"
             radialLines={false}
-            polarRadius={[0, 4, 18, 40, 60]}
+            polarRadius={[0, 2, 8, 25, 40]}
           ></PolarGrid>
 
           <Radar
