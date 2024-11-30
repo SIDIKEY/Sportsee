@@ -1,4 +1,5 @@
 import React from "react";
+import "./Simplebarchart.css"
 import {
   BarChart,
   Bar,
@@ -11,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip">
@@ -24,9 +25,12 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+
+
+
 export default function Simplebarchart({ data }) {
   return (
-    <ResponsiveContainer width="100%" aspect={4}>
+    <ResponsiveContainer width="95%" aspect={3.2}>
       <div className="title">Activité quotidienne</div>
       <BarChart
         data={data}
@@ -43,31 +47,31 @@ export default function Simplebarchart({ data }) {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="day"
-          tick={{ fill: "#9B9EAC" }}
+          //tick={{ fill: "#9B9EAC" }}
           tickLine={false}
-          stroke="#DEDEDE"
-          strokeWidth={2}
-          tickMargin={16}
+          //stroke="red"
+          //strokeWidth={19}
+          //tickMargin={16}
           tickFormatter={(day) => new Date(day).getDate()}
         />
 
-        <YAxis orientation="right" dataKey="calories" domain={[10, 400]} />
-        <Legend layout="horizontal" iconType="circle" verticalAlign="top" />
-        <Tooltip content={<CustomTooltip />} />
+        <YAxis orientation="right" dataKey="calories" domain={[10, 400]} axisLine={false} tickLine={false} />
+        <Legend layout="horizontal" iconType="circle" verticalAlign="top" align="right" />
+        <Tooltip  cursor={{fill:"#f008"}} content={<CustomTooltip />} />
 
         <Bar
           name="Poids (kg)"
           dataKey="kilogram"
           fill="#000"
           radius={[10, 10, 0, 0]}
-          activeBar={<Rectangle fill="grey" stroke="blue" />}
+          //activeBar={<Rectangle fill="grey" stroke="blue" />}
         />
         <Bar
           name="Calories (kcal)"
           dataKey="calories"
           fill="#FF0000"
           radius={[10, 10, 0, 0]}
-          activeBar={<Rectangle fill="pink" stroke="blue" />}
+          //activeBar={<Rectangle fill="pink" stroke="blue" />}
         />
       </BarChart>
     </ResponsiveContainer>
