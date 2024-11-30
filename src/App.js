@@ -1,8 +1,8 @@
+import React from "react";
 import Header from "./components/Header/Header";
 import { useState } from "react";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import Title from "./components/Title/Title";
-import useData from "./Hook/UseData";
 import RadChart from "./components/Radar_chart/Radar_chart";
 import Simplebarchart from "./components/Bar_chart/Simplebarchart.jsx";
 import ChartLine from "./components/Line_chart/Line_chart.jsx";
@@ -11,50 +11,87 @@ import caloriesWidget from "./Assets/calories-icon.svg";
 import proteinWidget from "./Assets/protein-icon.svg";
 import carbsWidget from "./Assets/carbs-icon.svg";
 import fatWidget from "./Assets/fat-icon.svg";
-import { useFetch } from "./Hook/useFetch.js";
 import "./App.css";
 import useFormat from "./components/UseFormat/UseFormat.js";
 
 function App() {
-
-  
-  
   function getCurrentURL() {
     return window.location.href;
   }
 
   let url = getCurrentURL();
   let id = url.split(`3001/`).pop();
-  let format = useFormat(id);
-  
-  console.log(format);
-
 
   const [state, setState] = useState("api");
+  //const [showMockDialog, setShowMockDialog] =  React.useState(false);
+  const [urlMock] = useState("http://localhost:3001");
 
   const onToggleResource = () => {
     setState(state === "mock" ? "api" : "mock");
   };
 
-  const [urlMock, setUrl] = useState("http://localhost:3001");
-  const { tData, error } = useFetch(urlMock);
-
-  const [data, loading] = useData(id);
-
+  // const { loading, error} = useData(id);
+  // const { tData, isPending } = useFetch(urlMock);
+  //console.log({loading, error})
   
 
-  console.log(data);
-  const dataToUse = state === "api" ? data : tData;
 
-  console.log({dataToUse});
-  if (!dataToUse?.user) {
-    return (
-      <div className="Error">
-        
-        <h1>ERROR 404</h1>
-      </div>
-    );
+  let {data, tData, error, loading, isPending} = useFormat(id, urlMock);
+  console.log({data, tData, error})
+  let dataToUse = state === "api" ? data : tData;
+  console.log(dataToUse)
+
+   if (state === "api" && !data && tData?.id) {
+      if (dataToUse ? dataToUse : "" && error) {
+      
+        dataToUse = tData;
+   
+      }
+      dataToUse = tData;
+      
+      
+       
+     
+   }
+    console.log(loading, isPending)
+    if(!loading && !isPending && !!error){
+      console.log("<<<<<<<<<<<<error")
+      if(dataToUse === tData && tData?.id){
+        let alerted = localStorage.getItem('alerted') || '';
+        if (alerted !== 'yes') {
+          alert("ERROR!!! (API SERVER DOWN) switching to mock");
+          localStorage.setItem('alerted','yes');
+        }
+        window.onbeforeunload = function (e) {
+          e.preventDefault();
+          localStorage.clear();
+        };
+        console.log('api down')
+      }
+
+    }
+    
+    
+    
+    
+
+  
+  if(!loading && !isPending && data === undefined && tData === undefined){
+    console.log(">>>>>>>>>>!!!!", tData?tData : "undef")
+    if (!loading && !isPending && (tData?.id === undefined || tData?.id === null)) {
+      console.log(">>>>>>>>>>>undefined")
+      return (
+        <div className="notFound">
+           <h1>404</h1>
+           <p>Page not found</p>
+           
+         </div>
+       );
+    }
+
   }
+   
+
 
   return (
     <div>
@@ -79,9 +116,7 @@ function App() {
             <div className="charts_wrapper">
               <ChartLine data={dataToUse?.averageSessions?.sessions || ""} />
 
-              <RadChart
-                dataPerf={format ? format : dataToUse?.performance?.data}
-              />
+              <RadChart dataPerf={dataToUse?.performance} />
 
               <ChartScore
                 dataScore={
@@ -116,7 +151,7 @@ function App() {
                     className="c_widget"
                   />
                 </div>
-                <div>
+                <div className="widget_value_wrapper">
                   <p className="widget_value">
                     {dataToUse?.user?.keyData?.proteinCount + "g" || ""}
                   </p>
@@ -131,7 +166,7 @@ function App() {
                     className="c_widget"
                   />
                 </div>
-                <div>
+                <div className="widget_value_wrapper">
                   <p className="widget_value">
                     {dataToUse?.user?.keyData?.carbohydrateCount + "g" || ""}
                   </p>
@@ -146,7 +181,7 @@ function App() {
                     className="c_widget"
                   />
                 </div>
-                <div>
+                <div className="widget_value_wrapper">
                   <p className="widget_value">
                     {dataToUse?.user?.keyData?.lipidCount + "g" || ""}
                   </p>
